@@ -21,7 +21,7 @@ protected:
 
 private:
     Bus *main_bus;
-    ALuint source;
+    ALuint source[2];
 };
 
 
