@@ -739,20 +739,13 @@ uint8_t Intel8080::OUT() {
         setShiftRegisterOffset(A);
     }
     if (port == 3) {
-        /*if (A & 0x01) emit main_bus->speak->pUFO();
-        if (A & 0x02) emit main_bus->speak->pSHOT();
-        if (A & 0x04) emit main_bus->speak->pFLASH();
-        if (A & 0x08) emit main_bus->speak->pINVADER_DIE();*/
+        main_bus->o_port_3 = A;
     }
     if (port == 4) {
         pushToShiftRegister(A);
     }
     if (port == 5) {
-        /*if (A & 0x01) emit main_bus->speak->pFLEET_MOVEMENT_1();
-        if (A & 0x02) emit main_bus->speak->pFLEET_MOVEMENT_2();
-        if (A & 0x04) emit main_bus->speak->pFLEET_MOVEMENT_3();
-        if (A & 0x08) emit main_bus->speak->pFLEET_MOVEMENT_4();
-        if (A & 0x10) emit main_bus->speak->pUFO_HIT();*/
+        main_bus->o_port_5 = A;
     }
     return 3;
 }

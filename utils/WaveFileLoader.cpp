@@ -25,7 +25,8 @@ std::vector<uint8_t> WaveFileLoader::getFileData(const char *filename) {
     return fileData;
 }
 
-std::vector<uint8_t> WaveFileLoader::getPCMData(const char *filename) {
+WaveFileLoader::WAVFile WaveFileLoader::getWaveFileData(const char *filename) {
+    WAVFile wavFile {};
     std::vector<uint8_t> fileData = getFileData(filename);
     long dataStartIndex = getChunkStartIndex("data", fileData);
     long pcmDataStartIndex = dataStartIndex + 4;
@@ -38,19 +39,12 @@ std::vector<uint8_t> WaveFileLoader::getPCMData(const char *filename) {
         pcmData.push_back(fileData[pcmDataStartIndex+i]);
     }
 
-    return pcmData;
-}
+    wavFile.channels_number  = fileData[23] << 8 | fileData[22];
+    wavFile.sample_rate      = fileData[27] << 24 | fileData[26] << 16 | fileData[25] << 8 | fileData[24];
+    wavFile.bits_per_sample  = fileData[35] << 8 | fileData[34];
+    wavFile.data             = pcmData;
 
-WaveFileLoader::WAVFormat WaveFileLoader::getFormat(const char *filename) {
-    WAVFormat format {};
-
-    std::vector<uint8_t> fileData = getFileData(filename);
-
-    format.channels_number  = fileData[23] << 8 | fileData[22];
-    format.sample_rate      = fileData[27] << 24 | fileData[26] << 16 | fileData[25] << 8 | fileData[24];
-    format.bits_per_sample  = fileData[35] << 8 | fileData[34];
-
-    return format;
+    return wavFile;
 }
 
 long WaveFileLoader::getChunkStartIndex(std::string chunk, std::vector<uint8_t> fileData) {
@@ -66,4 +60,14 @@ long WaveFileLoader::getChunkStartIndex(std::string chunk, std::vector<uint8_t> 
     }
 
     return -1;
+}
+
+ALuint WaveFileLoader::getBufferForFile(const char *filename) {
+    ALuint buffer;
+    alGenBuffers(1, &buffer);
+
+    WAVFile wavFile = getWaveFileData(filename);
+    alBufferData(buffer, AL_FORMAT_MONO8, wavFile.data.data(), wavFile.data.size(), wavFile.sample_rate);
+
+    return buffer;
 }

@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstdint>
 #include <fstream>
+#include <AL/al.h>
 
 /*
  * This utility class is intended to work only with :
@@ -18,14 +19,15 @@
  */
 class WaveFileLoader {
 public:
-    struct WAVFormat {
+    struct WAVFile {
         uint16_t channels_number;
         uint32_t sample_rate;
         uint16_t bits_per_sample;
+        std::vector<uint8_t> data;
     };
 
-    static std::vector<uint8_t> getPCMData(const char *filename);
-    static WAVFormat getFormat(const char *filename);
+    static WAVFile getWaveFileData(const char *filename);
+    static ALuint  getBufferForFile(const char *filename);
 
 private:
     static std::vector<uint8_t> getFileData(const char *filename);

@@ -40,6 +40,8 @@ Bus::Bus() {
     // I/O
     i_port_1 = 0x00;
     i_port_2 = 0x00;
+    o_port_3 = 0x00;
+    o_port_5 = 0x00;
     debug_key = 0;
 
     adapter->start();
