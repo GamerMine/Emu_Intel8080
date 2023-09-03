@@ -3,7 +3,7 @@
 //
 
 #include <QDebug>
-#include "intel_8080.h"
+#include "Intel8080.h"
 
 Intel8080::Intel8080() {
     this->ram = {};

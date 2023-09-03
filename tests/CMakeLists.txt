@@ -7,6 +7,6 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6Widgets REQUIRED)
 
-add_executable(Emu_Intel8080_tests intel_8080.h intel_8080.cpp intel_8080_tests.cpp)
+add_executable(Emu_Intel8080_tests Intel8080.h Intel8080.cpp Intel8080Tests.cpp)
 
 target_link_libraries(Emu_Intel8080_tests Qt6::Widgets)

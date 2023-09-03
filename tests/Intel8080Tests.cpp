@@ -5,7 +5,7 @@
 
 #include <QDebug>
 #include "doctest.h"
-#include "intel_8080.h"
+#include "Intel8080.h"
 
 uint8_t ram[1024*6];
 Intel8080 cpu;

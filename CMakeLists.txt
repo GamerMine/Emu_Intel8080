@@ -6,7 +6,6 @@ set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCE_FILES
-        debug/redirectQDebug.cpp
         main.cpp
         hardware/Bus.cpp
         hardware/Intel8080.cpp
