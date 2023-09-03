@@ -1,7 +1,7 @@
 #include <QApplication>
 
-#include "hardware/bus.h"
-#include "hardware/screen.h"
+#include "hardware/Bus.h"
+#include "hardware/Screen.h"
 
 /*
 This code redirects the output of qDebug() to a log file.
@@ -51,9 +51,9 @@ void redirectDebugMessages(QtMsgType type, const QMessageLogContext & context, c
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    qInstallMessageHandler(redirectDebugMessages);
+    //qInstallMessageHandler(redirectDebugMessages);
 
-    bus bus;
+    Bus bus;
 
     return app.exec();
 }

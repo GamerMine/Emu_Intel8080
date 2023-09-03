@@ -8,7 +8,7 @@
 #include "intel_8080.h"
 
 uint8_t ram[1024*6];
-intel_8080 cpu;
+Intel8080 cpu;
 
 TEST_CASE("JMP tests") {
     for (unsigned char & i : ram) {

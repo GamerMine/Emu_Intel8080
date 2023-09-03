@@ -2,17 +2,17 @@
 // Created by maxime on 27/07/23.
 //
 
-#ifndef EMU_INTEL8080_INTEL_8080_H
+#ifndef EMU_INTEL8080_INTEL8080_H
 #define EMU_INTEL8080_INTEL_8080_H
 
 #include <cstdio>
 #include <cstdint>
 #include <functional>
 
-class intel_8080 {
+class Intel8080 {
 public:
-    explicit intel_8080();
-    ~intel_8080();
+    explicit Intel8080();
+    ~Intel8080();
 
     void loadRAM(uint8_t *ram);
     void reset();
@@ -637,4 +637,4 @@ private:
 };
 
 
-#endif //EMU_INTEL8080_INTEL_8080_H
+#endif //EMU_INTEL8080_INTEL8080_H

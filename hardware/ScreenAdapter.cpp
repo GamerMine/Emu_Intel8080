@@ -2,23 +2,23 @@
 // Created by maxime on 12/08/23.
 //
 
-#include "screen_adapter.h"
-#include "screen.h"
+#include "ScreenAdapter.h"
+#include "Screen.h"
 
-screen *win;
+Screen *win;
 
-screen_adapter::screen_adapter(bus *bus) {
+ScreenAdapter::ScreenAdapter(Bus *bus) {
     main_bus = bus;
 
-    win = new screen(nullptr, bus);
+    win = new Screen(nullptr, bus);
     win->show();
 
-    QObject::connect(this, &screen_adapter::sendImage, win, &screen::imageReceived);
+    QObject::connect(this, &ScreenAdapter::sendImage, win, &Screen::imageReceived);
 
     image = new QImage(256, 224, QImage::Format_RGB32);
 }
 
-[[noreturn]] void screen_adapter::run() {
+[[noreturn]] void ScreenAdapter::run() {
     while (true) {
         usleep(16667);
         image->fill(QColor::fromRgb(0));

@@ -8,20 +8,20 @@ set(CMAKE_AUTOMOC ON)
 set(SOURCE_FILES
         debug/redirectQDebug.cpp
         main.cpp
-        hardware/bus.cpp
-        hardware/intel_8080.cpp
-        hardware/screen.cpp
-        hardware/screen_adapter.cpp
-        hardware/speaker.cpp
+        hardware/Bus.cpp
+        hardware/Intel8080.cpp
+        hardware/Screen.cpp
+        hardware/ScreenAdapter.cpp
+        hardware/Speaker.cpp
         utils/WaveFileLoader.cpp
 )
 
 set(HEADER_FILES
-        hardware/bus.h
-        hardware/intel_8080.h
-        hardware/screen.h
-        hardware/screen_adapter.h
-        hardware/speaker.h
+        hardware/Bus.h
+        hardware/Intel8080.h
+        hardware/Screen.h
+        hardware/ScreenAdapter.h
+        hardware/Speaker.h
         utils/WaveFileLoader.h
 )
 

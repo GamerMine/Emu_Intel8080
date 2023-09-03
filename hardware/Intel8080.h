@@ -2,19 +2,19 @@
 // Created by maxime on 27/07/23.
 //
 
-#ifndef EMU_INTEL8080_INTEL_8080_H
-#define EMU_INTEL8080_INTEL_8080_H
+#ifndef EMU_INTEL8080_INTEL8080_H
+#define EMU_INTEL8080_INTEL8080_H
 
 #include <cstdio>
 #include <cstdint>
 #include <QThread>
-#include "bus.h"
+#include "Bus.h"
 
-class intel_8080 : public QThread {
+class Intel8080 : public QThread {
     Q_OBJECT
 public:
-    explicit intel_8080(class bus *bus);
-    ~intel_8080();
+    explicit Intel8080(class Bus *bus);
+    ~Intel8080();
 
 public slots:
     void setInterrupt(uint16_t value);
@@ -23,7 +23,7 @@ signals:
     void playSound(uint8_t data, uint8_t port);
 
 private:
-    bus *main_bus;
+    Bus *main_bus;
     uint8_t A, B, C, D, E, H, L;
     uint16_t SP, PC;
     struct {
@@ -651,4 +651,4 @@ private:
 };
 
 
-#endif //EMU_INTEL8080_INTEL_8080_H
+#endif //EMU_INTEL8080_INTEL8080_H

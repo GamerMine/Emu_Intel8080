@@ -2,9 +2,9 @@
 // Created by maxime on 16/08/23.
 //
 
-#include "speaker.h"
+#include "Speaker.h"
 
-speaker::speaker(bus *bus) {
+Speaker::Speaker(Bus *bus) {
     main_bus = bus;
 
     ALCdevice *device = alcOpenDevice(NULL);
@@ -19,10 +19,10 @@ speaker::speaker(bus *bus) {
     alSourcef(source, AL_GAIN, 0.5f);
     alSource3f(source, AL_POSITION, 0, 0, 0);
     alSource3f(source, AL_VELOCITY, 0, 0, 0);
-    alSourcei(source, AL_LOOPING, AL_FALSE);
+    alSourcei(source, AL_LOOPING, AL_TRUE);
 }
 
-void speaker::run() {
+void Speaker::run() {
     ALuint buffer;
     alGenBuffers(1, &buffer);
 

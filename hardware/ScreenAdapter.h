@@ -2,19 +2,19 @@
 // Created by maxime on 12/08/23.
 //
 
-#ifndef EMU_INTEL8080_SCREEN_ADAPTER_H
-#define EMU_INTEL8080_SCREEN_ADAPTER_H
+#ifndef EMU_INTEL8080_SCREENADAPTER_H
+#define EMU_INTEL8080_SCREENADAPTER_H
 
 #include <QThread>
-#include "bus.h"
+#include "Bus.h"
 
-class screen_adapter : public QThread {
+class ScreenAdapter : public QThread {
     Q_OBJECT
 public:
-    explicit screen_adapter(bus *bus);
+    explicit ScreenAdapter(Bus *bus);
 
 private:
-    bus *main_bus;
+    Bus *main_bus;
     QImage *image;
 
 protected:
@@ -26,4 +26,4 @@ signals:
 };
 
 
-#endif //EMU_INTEL8080_SCREEN_ADAPTER_H
+#endif //EMU_INTEL8080_SCREENADAPTER_H

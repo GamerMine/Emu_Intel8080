@@ -5,7 +5,7 @@
 #include <QDebug>
 #include "intel_8080.h"
 
-intel_8080::intel_8080() {
+Intel8080::Intel8080() {
     this->ram = {};
 
     A = 0x00;
@@ -23,19 +23,19 @@ intel_8080::intel_8080() {
     enable_interrupts = false;
 }
 
-void intel_8080::loadRAM(uint8_t *new_ram) {
+void Intel8080::loadRAM(uint8_t *new_ram) {
     this->ram = new_ram;
 }
 
-uint8_t intel_8080::fetchData(uint16_t address) {
+uint8_t Intel8080::fetchData(uint16_t address) {
     return ram[address];
 }
 
-void intel_8080::writeData(uint16_t address, uint8_t data) {
+void Intel8080::writeData(uint16_t address, uint8_t data) {
     ram[address] = data;
 }
 
-void intel_8080::reset() {
+void Intel8080::reset() {
     A = 0x00;
     B = 0x00;
     C = 0x00;
@@ -50,16 +50,16 @@ void intel_8080::reset() {
     hlt = false;
 }
 
-uint8_t intel_8080::NIMP() {
+uint8_t Intel8080::NIMP() {
     qDebug("Not implemented");
     return 1;
 }
 
-uint8_t intel_8080::NOP() {
+uint8_t Intel8080::NOP() {
     return 1;
 }
 
-uint8_t intel_8080::LXI(uint8_t *rh, uint8_t *rl) {
+uint8_t Intel8080::LXI(uint8_t *rh, uint8_t *rl) {
     if (rh == nullptr && rl == nullptr) {
         SP = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -70,12 +70,12 @@ uint8_t intel_8080::LXI(uint8_t *rh, uint8_t *rl) {
     return 3;
 }
 
-uint8_t intel_8080::STAX(uint8_t rh, uint8_t rl) {
+uint8_t Intel8080::STAX(uint8_t rh, uint8_t rl) {
     writeData(rh << 8 | rl, A);
     return 2;
 }
 
-uint8_t intel_8080::INX(uint8_t *rh, uint8_t *rl) {
+uint8_t Intel8080::INX(uint8_t *rh, uint8_t *rl) {
     if (rh == nullptr && rl == nullptr) {
         SP++;
     } else {
@@ -89,7 +89,7 @@ uint8_t intel_8080::INX(uint8_t *rh, uint8_t *rl) {
     return 1;
 }
 
-uint8_t intel_8080::INR(uint8_t *reg) {
+uint8_t Intel8080::INR(uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t tmp_result;
     if (reg == nullptr) {
@@ -117,7 +117,7 @@ uint8_t intel_8080::INR(uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::DCR(uint8_t *reg) {
+uint8_t Intel8080::DCR(uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t tmp_result;
     if (reg == nullptr) {
@@ -145,7 +145,7 @@ uint8_t intel_8080::DCR(uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::MVI(uint8_t *reg) {
+uint8_t Intel8080::MVI(uint8_t *reg) {
     if (reg == nullptr) {
         writeData((H << 8 | L), fetchData(PC++));
         return 3;
@@ -154,7 +154,7 @@ uint8_t intel_8080::MVI(uint8_t *reg) {
     return 2;
 }
 
-uint8_t intel_8080::RLC() {
+uint8_t Intel8080::RLC() {
     bool high_bit = A >> 7;
 
     flags.carry = high_bit;
@@ -164,7 +164,7 @@ uint8_t intel_8080::RLC() {
     return 1;
 }
 
-uint8_t intel_8080::DAD(const uint8_t *rh, const uint8_t *rl) {
+uint8_t Intel8080::DAD(const uint8_t *rh, const uint8_t *rl) {
     uint16_t reg;
     if (rh == nullptr && rl == nullptr) {
         reg = SP;
@@ -183,18 +183,18 @@ uint8_t intel_8080::DAD(const uint8_t *rh, const uint8_t *rl) {
     return 3;
 }
 
-uint8_t intel_8080::LDAX(uint8_t rh, uint8_t rl) {
+uint8_t Intel8080::LDAX(uint8_t rh, uint8_t rl) {
     A = fetchData(rh << 8 | rl);
     return 2;
 }
 
-uint8_t intel_8080::LDA() {
+uint8_t Intel8080::LDA() {
     A = fetchData(fetchData(PC + 1) << 8 | fetchData(PC));
     PC += 2;
     return 4;
 }
 
-uint8_t intel_8080::DCX(uint8_t *rh, uint8_t *rl) {
+uint8_t Intel8080::DCX(uint8_t *rh, uint8_t *rl) {
     if (rh == nullptr && rl == nullptr) {
         SP--;
     } else {
@@ -208,7 +208,7 @@ uint8_t intel_8080::DCX(uint8_t *rh, uint8_t *rl) {
     return 1;
 }
 
-uint8_t intel_8080::RRC() {
+uint8_t Intel8080::RRC() {
     bool low_bit = A & 0x01;
 
     flags.carry = low_bit;
@@ -218,7 +218,7 @@ uint8_t intel_8080::RRC() {
     return 1;
 }
 
-uint8_t intel_8080::RAL() {
+uint8_t Intel8080::RAL() {
     bool high_bit = A >> 7;
 
     A = (A << 1) + flags.carry;
@@ -228,7 +228,7 @@ uint8_t intel_8080::RAL() {
     return 1;
 }
 
-uint8_t intel_8080::RAR() {
+uint8_t Intel8080::RAR() {
     bool low_bit = A & 0x01;
 
     A = (A >> 1) + (flags.carry == 1 ? 0x80 : 0x00);
@@ -238,7 +238,7 @@ uint8_t intel_8080::RAR() {
     return 1;
 }
 
-uint8_t intel_8080::SHLD() {
+uint8_t Intel8080::SHLD() {
     uint16_t address = fetchData(PC + 1) << 8 | fetchData(PC);
     writeData(address, L);
     writeData(address + 1, H);
@@ -246,7 +246,7 @@ uint8_t intel_8080::SHLD() {
     return 5;
 }
 
-uint8_t intel_8080::DAA() {
+uint8_t Intel8080::DAA() {
     bool tmp_carry = flags.carry;
     if ((A & 0x0F) > 9 || flags.aux_carry == 1) {
         flags.carry     = flags.carry || (A + 6) > 0xFF;
@@ -269,7 +269,7 @@ uint8_t intel_8080::DAA() {
     return 1;
 }
 
-uint8_t intel_8080::LHLD() {
+uint8_t Intel8080::LHLD() {
     uint16_t address = fetchData(PC + 1) << 8 | fetchData(PC);
     L = fetchData(address);
     H = fetchData(address + 1);
@@ -277,31 +277,31 @@ uint8_t intel_8080::LHLD() {
     return 5;
 }
 
-uint8_t intel_8080::CMA() {
+uint8_t Intel8080::CMA() {
     A = ~A;
 
     return 1;
 }
 
-uint8_t intel_8080::STA() {
+uint8_t Intel8080::STA() {
     writeData(fetchData(PC + 1) << 8 | fetchData(PC), A);
     PC += 2;
     return 4;
 }
 
-uint8_t intel_8080::STC() {
+uint8_t Intel8080::STC() {
     flags.carry = 1;
 
     return 1;
 }
 
-uint8_t intel_8080::CMC() {
+uint8_t Intel8080::CMC() {
     flags.carry = ~flags.carry;
 
     return 1;
 }
 
-uint8_t intel_8080::MOV(uint8_t *reg, const uint8_t *reg2) {
+uint8_t Intel8080::MOV(uint8_t *reg, const uint8_t *reg2) {
     if (reg2 == nullptr) {
         *reg = fetchData((H << 8 | L));
         return 2;
@@ -313,14 +313,14 @@ uint8_t intel_8080::MOV(uint8_t *reg, const uint8_t *reg2) {
     return 1;
 }
 
-uint8_t intel_8080::HLT() {
+uint8_t Intel8080::HLT() {
     hlt = true;
     qWarning("The processor has been halted");
 
     return 1;
 }
 
-uint8_t intel_8080::ADD(const uint8_t *reg) {
+uint8_t Intel8080::ADD(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -342,7 +342,7 @@ uint8_t intel_8080::ADD(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::ADC(const uint8_t *reg) {
+uint8_t Intel8080::ADC(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -364,7 +364,7 @@ uint8_t intel_8080::ADC(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::SUB(const uint8_t *reg) {
+uint8_t Intel8080::SUB(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -386,7 +386,7 @@ uint8_t intel_8080::SUB(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::SBB(const uint8_t *reg) {
+uint8_t Intel8080::SBB(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -408,7 +408,7 @@ uint8_t intel_8080::SBB(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::ANA(const uint8_t *reg) {
+uint8_t Intel8080::ANA(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -430,7 +430,7 @@ uint8_t intel_8080::ANA(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::XRA(const uint8_t *reg) {
+uint8_t Intel8080::XRA(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -452,7 +452,7 @@ uint8_t intel_8080::XRA(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::ORA(const uint8_t *reg) {
+uint8_t Intel8080::ORA(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -474,7 +474,7 @@ uint8_t intel_8080::ORA(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::CMP(const uint8_t *reg) {
+uint8_t Intel8080::CMP(const uint8_t *reg) {
     uint8_t cycle = 1;
     uint8_t data;
     if (reg == nullptr) {
@@ -494,7 +494,7 @@ uint8_t intel_8080::CMP(const uint8_t *reg) {
     return cycle;
 }
 
-uint8_t intel_8080::RNZ() {
+uint8_t Intel8080::RNZ() {
     if (flags.zero == 0) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -504,7 +504,7 @@ uint8_t intel_8080::RNZ() {
     return 1;
 }
 
-uint8_t intel_8080::POP(uint8_t *rh, uint8_t *rl) {
+uint8_t Intel8080::POP(uint8_t *rh, uint8_t *rl) {
     if (rh == nullptr && rl == nullptr) {
         uint8_t status_word = fetchData(SP);
         flags.carry = status_word & 0b00000001;
@@ -523,7 +523,7 @@ uint8_t intel_8080::POP(uint8_t *rh, uint8_t *rl) {
     return 3;
 }
 
-uint8_t intel_8080::JNZ() {
+uint8_t Intel8080::JNZ() {
     if (flags.zero == 0) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -533,13 +533,13 @@ uint8_t intel_8080::JNZ() {
     return 3;
 }
 
-uint8_t intel_8080::JMP() {
+uint8_t Intel8080::JMP() {
     PC = fetchData(PC + 1) << 8 | fetchData(PC);
 
     return 3;
 }
 
-uint8_t intel_8080::CNZ() {
+uint8_t Intel8080::CNZ() {
     uint8_t cycle = 0;
     if (flags.zero == 0) {
         writeData(SP - 1, PC >> 8);
@@ -555,7 +555,7 @@ uint8_t intel_8080::CNZ() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::PUSH(const uint8_t *rh, const uint8_t *rl) {
+uint8_t Intel8080::PUSH(const uint8_t *rh, const uint8_t *rl) {
     if (rh == nullptr && rl == nullptr) {
         uint8_t status_word = flags.sign << 7 | flags.zero << 6 | flags.aux_carry << 4 | flags.parity << 2 | 1 << 1 | flags.carry;
         writeData(SP - 1, A);
@@ -570,7 +570,7 @@ uint8_t intel_8080::PUSH(const uint8_t *rh, const uint8_t *rl) {
     return 3;
 }
 
-uint8_t intel_8080::ADI() {
+uint8_t Intel8080::ADI() {
     uint8_t data = fetchData(PC++);
     uint8_t tmp_result = A + data;
 
@@ -585,7 +585,7 @@ uint8_t intel_8080::ADI() {
     return 2;
 }
 
-uint8_t intel_8080::RST(uint16_t addr) {
+uint8_t Intel8080::RST(uint16_t addr) {
     writeData(SP - 1, PC >> 8);
     writeData(SP - 2, PC & 0x00FF);
 
@@ -596,7 +596,7 @@ uint8_t intel_8080::RST(uint16_t addr) {
     return 3;
 }
 
-uint8_t intel_8080::RZ() {
+uint8_t Intel8080::RZ() {
     if (flags.zero == 1) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -606,14 +606,14 @@ uint8_t intel_8080::RZ() {
     return 1;
 }
 
-uint8_t intel_8080::RET() {
+uint8_t Intel8080::RET() {
     PC = fetchData(SP + 1) << 8 | fetchData(SP);
     SP +=2;
 
     return 3;
 }
 
-uint8_t intel_8080::JZ() {
+uint8_t Intel8080::JZ() {
     if (flags.zero == 1) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -623,7 +623,7 @@ uint8_t intel_8080::JZ() {
     return 3;
 }
 
-uint8_t intel_8080::CZ() {
+uint8_t Intel8080::CZ() {
     uint8_t cycle = 0;
     if (flags.zero == 1) {
         writeData(SP - 1, PC >> 8);
@@ -639,7 +639,7 @@ uint8_t intel_8080::CZ() {
     return 3 + cycle;
 }
 
-uint8_t intel_8080::CALL() {
+uint8_t Intel8080::CALL() {
     writeData(SP - 1, (PC + 2) >> 8);
     writeData(SP - 2, (PC + 2) & 0x00FF);
 
@@ -649,7 +649,7 @@ uint8_t intel_8080::CALL() {
     return 5;
 }
 
-uint8_t intel_8080::ACI() {
+uint8_t Intel8080::ACI() {
     uint8_t data = fetchData(PC++);
     uint8_t tmp_result = A + data + flags.carry;
 
@@ -664,7 +664,7 @@ uint8_t intel_8080::ACI() {
     return 2;
 }
 
-uint8_t intel_8080::RNC() {
+uint8_t Intel8080::RNC() {
     if (flags.carry == 0) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -674,7 +674,7 @@ uint8_t intel_8080::RNC() {
     return 1;
 }
 
-uint8_t intel_8080::JNC() {
+uint8_t Intel8080::JNC() {
     if (flags.carry == 0) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -684,14 +684,14 @@ uint8_t intel_8080::JNC() {
     return 3;
 }
 
-uint8_t intel_8080::OUT() {
+uint8_t Intel8080::OUT() {
     qWarning("OUT");
     //TODO
     PC++;
     return 3;
 }
 
-uint8_t intel_8080::CNC() {
+uint8_t Intel8080::CNC() {
     uint8_t cycle = 0;
     if (flags.carry == 0) {
         writeData(SP - 1, PC >> 8);
@@ -707,7 +707,7 @@ uint8_t intel_8080::CNC() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::SUI() {
+uint8_t Intel8080::SUI() {
     uint8_t data = fetchData(PC++);
     uint8_t tmp_result = A - data;
 
@@ -722,7 +722,7 @@ uint8_t intel_8080::SUI() {
     return 2;
 }
 
-uint8_t intel_8080::RC() {
+uint8_t Intel8080::RC() {
     if (flags.carry == 1) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -732,7 +732,7 @@ uint8_t intel_8080::RC() {
     return 1;
 }
 
-uint8_t intel_8080::JC() {
+uint8_t Intel8080::JC() {
     if (flags.carry == 1) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -742,13 +742,13 @@ uint8_t intel_8080::JC() {
     return 3;
 }
 
-uint8_t intel_8080::IN() {
+uint8_t Intel8080::IN() {
     qWarning("IN");
     //TODO
     return 3;
 }
 
-uint8_t intel_8080::CC() {
+uint8_t Intel8080::CC() {
     uint8_t cycle = 0;
     if (flags.carry == 1) {
         writeData(SP - 1, PC >> 8);
@@ -764,7 +764,7 @@ uint8_t intel_8080::CC() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::SBI() {
+uint8_t Intel8080::SBI() {
     uint8_t data = fetchData(PC++);
     uint8_t tmp_result = A - data - flags.carry;
 
@@ -779,7 +779,7 @@ uint8_t intel_8080::SBI() {
     return 2;
 }
 
-uint8_t intel_8080::RPO() {
+uint8_t Intel8080::RPO() {
     if (flags.parity == 0) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -789,7 +789,7 @@ uint8_t intel_8080::RPO() {
     return 1;
 }
 
-uint8_t intel_8080::JPO() {
+uint8_t Intel8080::JPO() {
     if (flags.parity == 0) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -799,7 +799,7 @@ uint8_t intel_8080::JPO() {
     return 3;
 }
 
-uint8_t intel_8080::XTHL() {
+uint8_t Intel8080::XTHL() {
     uint8_t l_data = fetchData(SP);
     uint8_t h_data = fetchData(SP + 1);
 
@@ -812,7 +812,7 @@ uint8_t intel_8080::XTHL() {
     return 5;
 }
 
-uint8_t intel_8080::CPO() {
+uint8_t Intel8080::CPO() {
     uint8_t cycle = 0;
     if (flags.parity == 0) {
         writeData(SP - 1, PC >> 8);
@@ -828,7 +828,7 @@ uint8_t intel_8080::CPO() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::ANI() {
+uint8_t Intel8080::ANI() {
     uint8_t tmp_result = A & fetchData(PC++);
 
     flags.zero      = tmp_result == 0x00;
@@ -842,7 +842,7 @@ uint8_t intel_8080::ANI() {
     return 2;
 }
 
-uint8_t intel_8080::RPE() {
+uint8_t Intel8080::RPE() {
     if (flags.parity == 1) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -852,13 +852,13 @@ uint8_t intel_8080::RPE() {
     return 1;
 }
 
-uint8_t intel_8080::PCHL() {
+uint8_t Intel8080::PCHL() {
     PC = H << 8 | L;
 
     return 1;
 }
 
-uint8_t intel_8080::JPE() {
+uint8_t Intel8080::JPE() {
     if (flags.parity == 1) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -868,7 +868,7 @@ uint8_t intel_8080::JPE() {
     return 3;
 }
 
-uint8_t intel_8080::XCHG() {
+uint8_t Intel8080::XCHG() {
     uint8_t tmp_D = D;
     uint8_t tmp_E = E;
 
@@ -880,7 +880,7 @@ uint8_t intel_8080::XCHG() {
     return 1;
 }
 
-uint8_t intel_8080::CPE() {
+uint8_t Intel8080::CPE() {
     uint8_t cycle = 0;
     if (flags.parity == 1) {
         writeData(SP - 1, PC >> 8);
@@ -896,7 +896,7 @@ uint8_t intel_8080::CPE() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::XRI() {
+uint8_t Intel8080::XRI() {
     uint8_t tmp_result = A ^ fetchData(PC++);
 
     flags.zero      = tmp_result == 0x00;
@@ -910,7 +910,7 @@ uint8_t intel_8080::XRI() {
     return 1;
 }
 
-uint8_t intel_8080::RP() {
+uint8_t Intel8080::RP() {
     if (flags.sign == 0) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -920,7 +920,7 @@ uint8_t intel_8080::RP() {
     return 1;
 }
 
-uint8_t intel_8080::JP() {
+uint8_t Intel8080::JP() {
     if (flags.sign == 0) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -930,12 +930,12 @@ uint8_t intel_8080::JP() {
     return 3;
 }
 
-uint8_t intel_8080::DI() {
+uint8_t Intel8080::DI() {
     enable_interrupts = false;
     return 1;
 }
 
-uint8_t intel_8080::CP() {
+uint8_t Intel8080::CP() {
     uint8_t cycle = 0;
     if (flags.sign == 0) {
         writeData(SP - 1, PC >> 8);
@@ -951,7 +951,7 @@ uint8_t intel_8080::CP() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::ORI() {
+uint8_t Intel8080::ORI() {
     uint8_t tmp_result = A | fetchData(PC++);
 
     flags.zero      = tmp_result == 0x00;
@@ -965,7 +965,7 @@ uint8_t intel_8080::ORI() {
     return 1;
 }
 
-uint8_t intel_8080::RM() {
+uint8_t Intel8080::RM() {
     if (flags.sign == 1) {
         PC = fetchData(SP + 1) << 8 | fetchData(SP);
         SP +=2;
@@ -975,13 +975,13 @@ uint8_t intel_8080::RM() {
     return 1;
 }
 
-uint8_t intel_8080::SPHL() {
+uint8_t Intel8080::SPHL() {
     SP = H << 8 | L;
 
     return 1;
 }
 
-uint8_t intel_8080::JM() {
+uint8_t Intel8080::JM() {
     if (flags.sign == 1) {
         PC = fetchData(PC + 1) << 8 | fetchData(PC);
     } else {
@@ -991,12 +991,12 @@ uint8_t intel_8080::JM() {
     return 3;
 }
 
-uint8_t intel_8080::EI() {
+uint8_t Intel8080::EI() {
     enable_interrupts = true;
     return 1;
 }
 
-uint8_t intel_8080::CM() {
+uint8_t Intel8080::CM() {
     uint8_t cycle = 0;
     if (flags.sign == 1) {
         writeData(SP - 1, PC >> 8);
@@ -1012,7 +1012,7 @@ uint8_t intel_8080::CM() {
     return 5 + cycle;
 }
 
-uint8_t intel_8080::CPI() {
+uint8_t Intel8080::CPI() {
     uint8_t data = fetchData(PC++);
     uint8_t result = A - data;
 
@@ -1025,4 +1025,4 @@ uint8_t intel_8080::CPI() {
     return 2;
 }
 
-intel_8080::~intel_8080() = default;
+Intel8080::~Intel8080() = default;

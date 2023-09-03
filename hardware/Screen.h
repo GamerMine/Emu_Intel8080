@@ -9,20 +9,20 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QKeyEvent>
-#include "bus.h"
+#include "Bus.h"
 
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class screen; }
+namespace Ui { class Screen; }
 QT_END_NAMESPACE
 
-class screen : public QWidget {
+class Screen : public QWidget {
 Q_OBJECT
 
 public:
-    explicit screen(QWidget *parent = nullptr, bus *bus = nullptr);
+    explicit Screen(QWidget *parent = nullptr, Bus *bus = nullptr);
 
-    ~screen() override;
+    ~Screen() override;
 
 public slots:
     void imageReceived(QImage image);
@@ -32,9 +32,9 @@ protected:
     void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
-    bus *main_bus;
+    Bus *main_bus;
 
-    Ui::screen *ui;
+    Ui::Screen *ui;
     QImage *image;
     QLabel *image_label;
     QBoxLayout *layout;

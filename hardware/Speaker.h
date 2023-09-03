@@ -8,20 +8,19 @@
 #include <QThread>
 #include <AL/al.h>
 #include <AL/alc.h>
-#include "AudioFile.h"
-#include "bus.h"
+#include "Bus.h"
 #include "../utils/WaveFileLoader.h"
 
-class speaker : public QThread {
+class Speaker : public QThread {
     Q_OBJECT
 public:
-    explicit speaker(class bus *bus);
+    explicit Speaker(class Bus *bus);
 
 protected:
     void run() override;
 
 private:
-    bus *main_bus;
+    Bus *main_bus;
     ALuint source;
 };
 

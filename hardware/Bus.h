@@ -9,23 +9,23 @@
 #include <cstdint>
 #include <QImage>
 
-#include "intel_8080.h"
-#include "speaker.h"
+#include "Intel8080.h"
+#include "Speaker.h"
 
-class intel_8080;
-class bus : public QObject {
+class Intel8080;
+class Bus : public QObject {
     Q_OBJECT
 
 public:
-    bus();
+    Bus();
 
     uint8_t fetchInstruction(uint16_t address);
     uint8_t fetchData(uint16_t address);
     void writeData(uint16_t address, uint8_t data);
 
     uint8_t mem[MEMORY_SIZE]{};
-    intel_8080 *cpu;
-    class speaker *speak;
+    Intel8080 *cpu;
+    class Speaker *speak;
 
     // Shift register
     void pushToShiftRegister(uint8_t data);
