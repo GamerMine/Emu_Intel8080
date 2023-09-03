@@ -13,6 +13,7 @@ set(SOURCE_FILES
         hardware/screen.cpp
         hardware/screen_adapter.cpp
         hardware/speaker.cpp
+        utils/WaveFileLoader.cpp
 )
 
 set(HEADER_FILES
@@ -21,6 +22,7 @@ set(HEADER_FILES
         hardware/screen.h
         hardware/screen_adapter.h
         hardware/speaker.h
+        utils/WaveFileLoader.h
 )
 
 find_package(Qt6Widgets REQUIRED)

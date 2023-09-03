@@ -10,6 +10,7 @@
 #include <AL/alc.h>
 #include "AudioFile.h"
 #include "bus.h"
+#include "../utils/WaveFileLoader.h"
 
 class speaker : public QThread {
     Q_OBJECT

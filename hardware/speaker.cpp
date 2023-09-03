@@ -16,7 +16,7 @@ speaker::speaker(bus *bus) {
 
     alGenSources(1, &source);
     alSourcef(source, AL_PITCH, 1);
-    alSourcef(source, AL_GAIN, 0.1f);
+    alSourcef(source, AL_GAIN, 0.5f);
     alSource3f(source, AL_POSITION, 0, 0, 0);
     alSource3f(source, AL_VELOCITY, 0, 0, 0);
     alSourcei(source, AL_LOOPING, AL_FALSE);
@@ -26,11 +26,11 @@ void speaker::run() {
     ALuint buffer;
     alGenBuffers(1, &buffer);
 
-    AudioFile<int> audioFile;
-    audioFile.load("sounds/Lanmou Soley.wav");
+    std::vector<uint8_t> data = WaveFileLoader::getPCMData("sounds/Lanmou_Soley.wav");
+    uint32_t sampleRate = WaveFileLoader::getFormat("sounds/Lanmou_Soley.wav").sample_rate;
 
-    /*alBufferData(buffer, AL_FORMAT_STEREO16, audioFile.raw_samples.data(), audioFile.raw_samples.size(), audioFile.getSampleRate());
+    alBufferData(buffer, AL_FORMAT_MONO8, data.data(), data.size(), sampleRate);
 
     alSourcei(source, AL_BUFFER, buffer);
-    alSourcePlay(source);*/
+    alSourcePlay(source);
 }
