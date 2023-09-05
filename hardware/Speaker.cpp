@@ -7,20 +7,25 @@
 Speaker::Speaker(Bus *bus) {
     main_bus = bus;
 
-    ALCdevice *device = alcOpenDevice(NULL);
+    // Initialize the device (choosing the default device)
+    ALCdevice *device = alcOpenDevice(nullptr);
     if (!device) qCritical("ERROR: Could not open audio device");
 
+    // Creating a context a making it current
     ALCcontext *context = alcCreateContext(device, nullptr);
     if (!context) qCritical("ERROR: Could not create audio context");
     alcMakeContextCurrent(context);
 
+    // Generating the sources
     alGenSources(3, &source[0]);
-    alSourcef(source[0], AL_GAIN, 0.1f);
-    alSourcef(source[1], AL_GAIN, 0.1f);
-    alSourcef(source[2], AL_GAIN, 0.1f);
+    for (unsigned int srcNb : source) {
+        alSourcef(srcNb, AL_GAIN, 0.1f);
+    }
 }
 
-void Speaker::run() {
+[[noreturn]] void Speaker::run() {
+    // Loading all the sound effect (Note that it may be slow depending on the computer it is running on)
+    // Considering that the time before launching a game is enough
     ALuint flash = WaveFileLoader::getBufferForFile("sounds/flash.wav");
     ALuint fleetMovement1 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_1.wav");
     ALuint fleetMovement2 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_2.wav");
@@ -31,41 +36,44 @@ void Speaker::run() {
     ALuint ufo = WaveFileLoader::getBufferForFile("sounds/ufo.wav");
     ALuint ufoHit = WaveFileLoader::getBufferForFile("sounds/ufo_hit.wav");
 
+    // Initializing some useful variables to manage the sound effects
     ALint state[3] = {AL_STOPPED, AL_STOPPED, AL_STOPPED};
     ALint currentSound[3] = {-1, -1, -1};
     ALint lastSound[3] = {-1, -1, -1};
-    uint8_t outputPort = 0;
     ALboolean repeat[3] = {AL_FALSE, AL_FALSE, AL_FALSE};
 
     while (true) {
-        currentSound[0] = -1;
-        currentSound[1] = -1;
-        currentSound[2] = -1;
-        repeat[0] = AL_FALSE;
-        repeat[1] = AL_FALSE;
-        repeat[2] = AL_FALSE;
-        if (main_bus->o_port_3 & 0b00000001) {
-            currentSound[2] = ufo;
-            repeat[2] = AL_TRUE;
-            outputPort = 2;
+        // Reinitializing some variables to default values
+        for (unsigned int srcNb : source) {
+            currentSound[srcNb] = -1;
+            repeat[srcNb] = AL_FALSE;
         }
-        if (main_bus->o_port_3 & 0b00000010) {currentSound[0] = shot;outputPort = 0;}
-        if (main_bus->o_port_3 & 0b00000100) {currentSound[0] = flash;outputPort = 0;}
-        if (main_bus->o_port_3 & 0b00001000) {currentSound[0] = invaderDie;outputPort = 0;}
-        if (main_bus->o_port_5 & 0b00000001) {currentSound[1] = fleetMovement1;outputPort = 1;}
-        if (main_bus->o_port_5 & 0b00000010) {currentSound[1] = fleetMovement2;outputPort = 1;}
-        if (main_bus->o_port_5 & 0b00000100) {currentSound[1] = fleetMovement3;outputPort = 1;}
-        if (main_bus->o_port_5 & 0b00001000) {currentSound[1] = fleetMovement4;outputPort = 1;}
-        if (main_bus->o_port_5 & 0b00010000) {currentSound[1] = ufoHit;outputPort = 1;}
 
-        if (state[outputPort] != AL_PLAYING && currentSound[outputPort] != -1 && (lastSound[outputPort] != currentSound[outputPort] || repeat[outputPort])) {
-            alSourcei(source[outputPort], AL_BUFFER, currentSound[outputPort]);
-            alSourcePlay(source[outputPort]);
-            alGetSourcei(source[outputPort], AL_SOURCE_STATE, &state[outputPort]);
-            lastSound[outputPort] = currentSound[outputPort];
-        }
-        if (state[outputPort] == AL_PLAYING) {
-            alGetSourcei(source[outputPort], AL_SOURCE_STATE, &state[outputPort]);
+        // Checking what sounds should be played
+        if (main_bus->o_port_3 & 0b00000001) {currentSound[2] = (ALint)ufo; repeat[2] = AL_TRUE;}
+        if (main_bus->o_port_3 & 0b00000010) {currentSound[0] = (ALint)shot;}
+        if (main_bus->o_port_3 & 0b00000100) {currentSound[0] = (ALint)flash;}
+        if (main_bus->o_port_3 & 0b00001000) {currentSound[0] = (ALint)invaderDie;}
+        if (main_bus->o_port_5 & 0b00000001) {currentSound[1] = (ALint)fleetMovement1;}
+        if (main_bus->o_port_5 & 0b00000010) {currentSound[1] = (ALint)fleetMovement2;}
+        if (main_bus->o_port_5 & 0b00000100) {currentSound[1] = (ALint)fleetMovement3;}
+        if (main_bus->o_port_5 & 0b00001000) {currentSound[1] = (ALint)fleetMovement4;}
+        if (main_bus->o_port_5 & 0b00010000) {currentSound[1] = (ALint)ufoHit;}
+
+        // Playing the sounds (+ some checks to make the sound behave normally)
+        for (uint8_t outputPort = 0; outputPort < 3; outputPort++) {
+            if (state[outputPort] != AL_PLAYING && currentSound[outputPort] != -1 &&
+                (lastSound[outputPort] != currentSound[outputPort] || repeat[outputPort])) {
+                alSourcei(source[outputPort], AL_BUFFER, currentSound[outputPort]);
+                alSourcePlay(source[outputPort]);
+                alGetSourcei(source[outputPort], AL_SOURCE_STATE, &state[outputPort]);
+                lastSound[outputPort] = currentSound[outputPort];
+            }
+
+            // Setting the states of the sources
+            if (state[outputPort] == AL_PLAYING) {
+                alGetSourcei(source[outputPort], AL_SOURCE_STATE, &state[outputPort]);
+            }
         }
         if (!(main_bus->o_port_3 & 0b00000010)) {lastSound[0] = -1;}
     }
