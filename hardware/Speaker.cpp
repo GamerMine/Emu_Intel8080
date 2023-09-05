@@ -14,9 +14,10 @@ Speaker::Speaker(Bus *bus) {
     if (!context) qCritical("ERROR: Could not create audio context");
     alcMakeContextCurrent(context);
 
-    alGenSources(2, &source[0]);
+    alGenSources(3, &source[0]);
     alSourcef(source[0], AL_GAIN, 0.1f);
     alSourcef(source[1], AL_GAIN, 0.1f);
+    alSourcef(source[2], AL_GAIN, 0.1f);
 }
 
 void Speaker::run() {
@@ -30,20 +31,23 @@ void Speaker::run() {
     ALuint ufo = WaveFileLoader::getBufferForFile("sounds/ufo.wav");
     ALuint ufoHit = WaveFileLoader::getBufferForFile("sounds/ufo_hit.wav");
 
-    ALint state[2] = {AL_STOPPED, AL_STOPPED};
-    ALint currentSound[2] = {-1, -1};
-    ALint lastSound[2] = {-1, -1};
+    ALint state[3] = {AL_STOPPED, AL_STOPPED, AL_STOPPED};
+    ALint currentSound[3] = {-1, -1, -1};
+    ALint lastSound[3] = {-1, -1, -1};
     uint8_t outputPort = 0;
-    ALboolean repeat[2] = {AL_FALSE, AL_FALSE};
+    ALboolean repeat[3] = {AL_FALSE, AL_FALSE, AL_FALSE};
 
     while (true) {
         currentSound[0] = -1;
         currentSound[1] = -1;
+        currentSound[2] = -1;
         repeat[0] = AL_FALSE;
         repeat[1] = AL_FALSE;
+        repeat[2] = AL_FALSE;
         if (main_bus->o_port_3 & 0b00000001) {
-            currentSound[0] = ufo;
-            repeat[0] = AL_TRUE;
+            currentSound[2] = ufo;
+            repeat[2] = AL_TRUE;
+            outputPort = 2;
         }
         if (main_bus->o_port_3 & 0b00000010) {currentSound[0] = shot;outputPort = 0;}
         if (main_bus->o_port_3 & 0b00000100) {currentSound[0] = flash;outputPort = 0;}
@@ -63,5 +67,6 @@ void Speaker::run() {
         if (state[outputPort] == AL_PLAYING) {
             alGetSourcei(source[outputPort], AL_SOURCE_STATE, &state[outputPort]);
         }
+        if (!(main_bus->o_port_3 & 0b00000010)) {lastSound[0] = -1;}
     }
 }
