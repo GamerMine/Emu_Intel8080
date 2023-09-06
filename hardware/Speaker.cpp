@@ -20,6 +20,7 @@ Speaker::Speaker(Bus *bus) {
     alGenSources(3, &source[0]);
     for (unsigned int srcNb : source) {
         alSourcef(srcNb, AL_GAIN, 0.1f);
+        alSourcei(srcNb, AL_LOOPING, AL_FALSE);
     }
 }
 
@@ -37,16 +38,16 @@ Speaker::Speaker(Bus *bus) {
     ALuint ufoHit = WaveFileLoader::getBufferForFile("sounds/ufo_hit.wav");
 
     // Initializing some useful variables to manage the sound effects
-    ALint state[3] = {AL_STOPPED, AL_STOPPED, AL_STOPPED};
-    ALint currentSound[3] = {-1, -1, -1};
-    ALint lastSound[3] = {-1, -1, -1};
-    ALboolean repeat[3] = {AL_FALSE, AL_FALSE, AL_FALSE};
+    ALint state[NB_SOURCES] = {AL_STOPPED, AL_STOPPED, AL_STOPPED};
+    ALint currentSound[NB_SOURCES] = {-1, -1, -1};
+    ALint lastSound[NB_SOURCES] = {-1, -1, -1};
+    ALboolean repeat[NB_SOURCES] = {AL_FALSE, AL_FALSE, AL_FALSE};
 
     while (true) {
         // Reinitializing some variables to default values
-        for (unsigned int srcNb : source) {
-            currentSound[srcNb] = -1;
-            repeat[srcNb] = AL_FALSE;
+        for (uint8_t i = 0; i < NB_SOURCES; i++) {
+            currentSound[i] = -1;
+            repeat[i] = AL_FALSE;
         }
 
         // Checking what sounds should be played

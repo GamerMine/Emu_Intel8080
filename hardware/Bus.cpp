@@ -18,19 +18,22 @@ Bus::Bus() {
     // ROM
     uint16_t i = 0;
     for (const char *rom : roms) {
-        FILE *file = fopen(rom, "r");
+        std::ifstream file(rom, std::ios::binary);
 
-        if (file == nullptr) {
+        if (!file.good()) {
             qCritical("File not found: %s", rom);
             return;
         }
 
-        int byte;
-        while((byte = getc(file)) != EOF) {
-            mem[i++] = (uint8_t) byte;
-        }
+        char byte;
 
-        fclose(file);
+        while (!file.eof()) {
+            file.read(&byte, 1);
+            mem[i++] = byte;
+        }
+        i--;
+
+        file.close();
     }
 
     // Shift register

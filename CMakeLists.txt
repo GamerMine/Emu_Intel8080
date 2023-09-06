@@ -25,10 +25,16 @@ set(HEADER_FILES
 )
 
 find_package(Qt6Widgets REQUIRED)
-find_package(OpenAL REQUIRED)
+if (WIN32)
+    find_package(OpenAL CONFIG REQUIRED)
+    set(OPEN_AL_LINK OpenAL::OpenAL)
+elseif (UNIX OR LINUX)
+    find_package(OpenAL REQUIRED)
+    set(OPEN_AL_LINK openal)
+endif ()
 
 add_executable(Emu_Intel8080 ${HEADER_FILES} ${SOURCE_FILES})
 
-target_link_libraries(Emu_Intel8080 Qt6::Widgets openal)
+target_link_libraries(Emu_Intel8080 Qt6::Widgets ${OPEN_AL_LINK})
 
 add_subdirectory(tests)
