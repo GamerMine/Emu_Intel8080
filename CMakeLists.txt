@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(Emu_Intel8080)
 
+set(CMAKE_PREFIX_PATH $HOME/Qt/6.5.2/gcc_64)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
@@ -32,9 +33,17 @@ elseif (UNIX OR LINUX)
     find_package(OpenAL REQUIRED)
     set(OPEN_AL_LINK openal)
 endif ()
+qt_standard_project_setup()
 
-add_executable(Emu_Intel8080 ${HEADER_FILES} ${SOURCE_FILES})
+qt_add_executable(Emu_Intel8080 ${HEADER_FILES} ${SOURCE_FILES})
 
-target_link_libraries(Emu_Intel8080 Qt6::Widgets ${OPEN_AL_LINK})
+target_link_libraries(Emu_Intel8080 PRIVATE Qt6::Widgets ${OPEN_AL_LINK})
+target_include_directories(Emu_Intel8080 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+
+file(COPY sounds DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY roms DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+if (UNIX OR LINUX)
+    file(COPY scripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif ()
 
 add_subdirectory(tests)

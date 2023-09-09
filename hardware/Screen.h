@@ -9,6 +9,8 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QMenu>
+#include <QMenuBar>
 #include "Bus.h"
 
 
@@ -21,11 +23,13 @@ Q_OBJECT
 
 public:
     explicit Screen(QWidget *parent = nullptr, Bus *bus = nullptr);
-
     ~Screen() override;
+
+    static inline bool color_mode = false;
 
 public slots:
     void imageReceived(QImage image);
+    void enableColorTriggered();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -38,6 +42,9 @@ private:
     QImage *image;
     QLabel *image_label;
     QBoxLayout *layout;
+    QMenuBar *menu_bar;
+    QMenu *setting_menu;
+    QAction *add_color;
 };
 
 

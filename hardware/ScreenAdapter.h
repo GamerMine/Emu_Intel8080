@@ -16,6 +16,7 @@ public:
 private:
     Bus *main_bus;
     QImage *image;
+    QColor current_color;
 
 protected:
     [[noreturn]] void run() override;

@@ -7,22 +7,35 @@
 #include "Screen.h"
 #include "ui_Screen.h"
 
-
 Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) {
     ui->setupUi(this);
 
     main_bus = bus;
+    color_mode = false;
 
     layout = new QBoxLayout(QBoxLayout::TopToBottom);
     image_label = new QLabel();
+    menu_bar = new QMenuBar();
+    setting_menu = new QMenu("Settings");
+    add_color = new QAction("Enable colors");
     image = new QImage(256, 224, QImage::Format_RGB32);
     image->fill(QColor::fromRgb(0));
 
-    image_label->setPixmap(QPixmap::fromImage(image->scaled(256*3, 224*3)));
+    add_color->setCheckable(true);
+    setting_menu->addAction(add_color);
 
+    menu_bar->addMenu(setting_menu);
+
+    image_label->setPixmap(QPixmap::fromImage(image->scaled(224*3.8, 256*3.8)));
+
+    layout->addWidget(menu_bar);
     layout->addWidget(image_label);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     this->setLayout(layout);
+    this->setFixedSize(224*3.8, 256*3.8);
+
+    connect(add_color, &QAction::triggered, this, &Screen::enableColorTriggered);
 }
 
 Screen::~Screen() {
@@ -33,6 +46,16 @@ void Screen::imageReceived(QImage image) {
     auto rotated = image.transformed(QTransform().rotate(-90.0));
     auto scaled = rotated.scaled(224*3.8, 256*3.8);
     image_label->setPixmap(QPixmap::fromImage(scaled));
+}
+
+void Screen::enableColorTriggered() {
+    if (add_color->isChecked()) {
+        add_color->setText("Disable colors");
+        Screen::color_mode = true;
+    } else {
+        add_color->setText("Enable colors");
+        Screen::color_mode = false;
+    }
 }
 
 void Screen::keyPressEvent(QKeyEvent *e) {
