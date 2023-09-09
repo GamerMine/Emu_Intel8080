@@ -4,7 +4,7 @@ build_dir="build";
 executable_name="Emu_Intel8080"
 files=("sounds" "roms" "$executable_name");
 additional_libs=("libQt6XcbQpa.so.6" "libQt6OpenGL.so.6")
-qt_folder="/home/maxime/Qt/6.5.2/gcc_64"
+qt_folder="$HOME/Qt/6.5.2/gcc_64"
 
 # Create the directory on the final build location
 if [ -d build ]; then
@@ -27,7 +27,7 @@ fi
 mkdir tmp
 for lib in $(ldd $executable_name | cut -d' ' -f3); do
   if [[ $lib == *"Qt"* ]]; then
-    cp $qt_folder/lib/"$(echo "$lib" | cut -d"/" -f4)" lib;
+    cp "$qt_folder"/lib/"$(echo $lib | cut -d"/" -f8)" lib;
   elif [[ $lib == *"libicu"* ]]; then # For some reason the libicu lib is changing shared object names between folder and/or system
     lib_name=$(echo "$lib" | cut -d"/" -f4);
     new_name=${lib_name//"72"/"56"};
@@ -42,7 +42,7 @@ rm -rf tmp
 
 for lib in "${additional_libs[@]}"; do
   if [[ $lib == *"Qt"* ]]; then
-    cp $qt_folder/lib/"$lib" lib;
+    cp "$qt_folder"/lib/"$lib" lib;
   else
     cp "$lib" lib;
   fi
@@ -52,7 +52,7 @@ done
 if [ ! -d lib/plugins/platforms ]; then
     mkdir -p lib/plugins/platforms;
 fi
-cp $qt_folder/plugins/platforms/libqxcb.so lib/plugins/platforms;
+cp "$qt_folder"/plugins/platforms/libqxcb.so lib/plugins/platforms;
 
 # Creating the qt.conf file
 if [ ! -f qt.conf ]; then

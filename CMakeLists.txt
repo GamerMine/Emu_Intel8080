@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 project(Emu_Intel8080)
 
-set(CMAKE_PREFIX_PATH $HOME/Qt/6.5.2/gcc_64)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
@@ -43,7 +42,9 @@ target_include_directories(Emu_Intel8080 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 file(COPY sounds DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY roms DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 if (UNIX OR LINUX)
-    file(COPY scripts/deploy.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    file(COPY scripts/deploy_linux.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+else (WIN32)
+    file(COPY scripts/deploy_windows.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 
 add_subdirectory(tests)
