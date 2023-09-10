@@ -34,7 +34,7 @@ Here are some features I want to add to this project :
 - Create a build directory and go into it : `mkdir build_linux && cd build_linux`
 - Configure the cmake project : `cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/Qt/6.5.2/gcc_64 ..`
 - Build : `cmake --build . --target Emu_Intel8080`
-- (Optional) Deploy : `./deploy_linux.sh`
+- (Optional) Deploy : `./deploy_linux.sh` (Some variables inside the script sould be modified depending on your installation)
 
 If you choose to deploy the project it should be under `build_linux/build`
 
@@ -64,6 +64,6 @@ Now you can build this project :
 - Create a build directory and go into it : `mkdir build_windows && cd build_windows`
 - Configure the cmake project : `cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/x86_64-w64-mingw32-gcc-12-posix -DCMAKE_CXX_COMPILER=/usr/bin/x86_64-w64-mingw32-c++-posix -DCMAKE_PREFIX_PATH=/path/to/Qt/6.5.2/mingw-w64 -DCMAKE_TOOLCHAIN_FILE=/path/to/WindowsToolchain.cmake ..`
 - Build : `cmake --build . --target Emu_Intel8080`
-- Deploy : `./deploy_windows.sh`
+- Deploy : `./deploy_windows.sh` (Some variables inside the script sould be modified depending on your installation)
 
 If you choose to deploy the project it should be under `build_windows/build`
