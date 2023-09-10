@@ -24,6 +24,7 @@ Here are some features I want to add to this project :
 - i18n (Some translations)
 - Some more items in the menu bar (like About, Quit...)
 - Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
+- Make the window resizable to resize the game
 
 # Building
 ## Linux
