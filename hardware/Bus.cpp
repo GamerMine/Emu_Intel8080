@@ -6,7 +6,7 @@
 #include "Screen.h"
 #include "ScreenAdapter.h"
 
-const char *roms[4] = {"roms/invaders.h", "roms/invaders.g", "roms/invaders.f", "roms/invaders.e"};
+const char *roms[4] = {"resources/roms/invaders.h", "resources/roms/invaders.g", "resources/roms/invaders.f", "resources/roms/invaders.e"};
 
 ScreenAdapter *adapter;
 
@@ -81,4 +81,13 @@ uint8_t Bus::getShiftRegisterContent() {
     uint16_t result = (shift_register << shift_offset) >> (8 - shift_offset);
 
     return result & 0x00FF;
+}
+
+void Bus::reset() {
+    uint16_t i = 0x2000;
+    while (i < 0x4000) {
+        mem[i++] = 0x00;
+    }
+
+    cpu->reset();
 }

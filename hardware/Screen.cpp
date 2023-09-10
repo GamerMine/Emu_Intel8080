@@ -18,11 +18,13 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
     menu_bar = new QMenuBar();
     setting_menu = new QMenu("Settings");
     add_color = new QAction("Enable colors");
+    edit_dips = new QAction(tr("Game configuration"));
     image = new QImage(256, 224, QImage::Format_RGB32);
     image->fill(QColor::fromRgb(0));
 
     add_color->setCheckable(true);
     setting_menu->addAction(add_color);
+    setting_menu->addAction(edit_dips);
 
     menu_bar->addMenu(setting_menu);
 
@@ -36,6 +38,7 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
     this->setFixedSize(224*3.8, 256*3.8);
 
     connect(add_color, &QAction::triggered, this, &Screen::enableColorTriggered);
+    connect(edit_dips, &QAction::triggered, this, &Screen::editGameConfigTriggered);
 }
 
 Screen::~Screen() {
@@ -56,6 +59,11 @@ void Screen::enableColorTriggered() {
         add_color->setText("Enable colors");
         Screen::color_mode = false;
     }
+}
+
+void Screen::editGameConfigTriggered() {
+    GameConfigDialog *dialog = new GameConfigDialog(this, main_bus);
+    (void) dialog;
 }
 
 void Screen::keyPressEvent(QKeyEvent *e) {

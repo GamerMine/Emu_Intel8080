@@ -11,8 +11,9 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMenuBar>
-#include "Bus.h"
 
+#include "Bus.h"
+#include "../widgets/GameConfigDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Screen; }
@@ -30,6 +31,7 @@ public:
 public slots:
     void imageReceived(QImage image);
     void enableColorTriggered();
+    void editGameConfigTriggered();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -45,6 +47,7 @@ private:
     QMenuBar *menu_bar;
     QMenu *setting_menu;
     QAction *add_color;
+    QAction *edit_dips;
 };
 
 

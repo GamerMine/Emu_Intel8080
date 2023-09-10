@@ -27,15 +27,15 @@ Speaker::Speaker(Bus *bus) {
 [[noreturn]] void Speaker::run() {
     // Loading all the sound effect (Note that it may be slow depending on the computer it is running on)
     // Considering that the time before launching a game is enough
-    ALuint flash = WaveFileLoader::getBufferForFile("sounds/flash.wav");
-    ALuint fleetMovement1 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_1.wav");
-    ALuint fleetMovement2 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_2.wav");
-    ALuint fleetMovement3 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_3.wav");
-    ALuint fleetMovement4 = WaveFileLoader::getBufferForFile("sounds/fleet_movement_4.wav");
-    ALuint invaderDie = WaveFileLoader::getBufferForFile("sounds/invader_die.wav");
-    ALuint shot = WaveFileLoader::getBufferForFile("sounds/shot.wav");
-    ALuint ufo = WaveFileLoader::getBufferForFile("sounds/ufo.wav");
-    ALuint ufoHit = WaveFileLoader::getBufferForFile("sounds/ufo_hit.wav");
+    ALuint flash = WaveFileLoader::getBufferForFile("resources/sounds/flash.wav");
+    ALuint fleetMovement1 = WaveFileLoader::getBufferForFile("resources/sounds/fleet_movement_1.wav");
+    ALuint fleetMovement2 = WaveFileLoader::getBufferForFile("resources/sounds/fleet_movement_2.wav");
+    ALuint fleetMovement3 = WaveFileLoader::getBufferForFile("resources/sounds/fleet_movement_3.wav");
+    ALuint fleetMovement4 = WaveFileLoader::getBufferForFile("resources/sounds/fleet_movement_4.wav");
+    ALuint invaderDie = WaveFileLoader::getBufferForFile("resources/sounds/invader_die.wav");
+    ALuint shot = WaveFileLoader::getBufferForFile("resources/sounds/shot.wav");
+    ALuint ufo = WaveFileLoader::getBufferForFile("resources/sounds/ufo.wav");
+    ALuint ufoHit = WaveFileLoader::getBufferForFile("resources/sounds/ufo_hit.wav");
 
     // Initializing some useful variables to manage the sound effects
     ALint state[NB_SOURCES] = {AL_STOPPED, AL_STOPPED, AL_STOPPED};

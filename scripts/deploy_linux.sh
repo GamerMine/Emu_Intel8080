@@ -2,7 +2,7 @@
 
 build_dir="build";
 executable_name="Emu_Intel8080"
-files=("sounds" "roms" "$executable_name");
+files=("resources" "$executable_name");
 additional_libs=("libQt6XcbQpa.so.6" "libQt6OpenGL.so.6")
 qt_folder="$HOME/Qt/6.5.2/gcc_64"
 

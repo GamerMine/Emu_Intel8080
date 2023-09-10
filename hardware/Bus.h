@@ -16,12 +16,15 @@ class Intel8080;
 class Bus : public QObject {
     Q_OBJECT
 
+    void resetRAM();
+
 public:
     Bus();
 
     uint8_t fetchInstruction(uint16_t address);
     uint8_t fetchData(uint16_t address);
     void writeData(uint16_t address, uint8_t data);
+    void reset();
 
     uint8_t mem[MEMORY_SIZE]{};
     Intel8080 *cpu;
@@ -34,7 +37,7 @@ public:
 
     // Input ports
     uint8_t i_port_1;
-    uint8_t i_port_2; //TODO: Second player not working
+    uint8_t i_port_2; //TODO: Second player
     bool debug_key;
 
     // Output ports

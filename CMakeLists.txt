@@ -13,6 +13,7 @@ set(SOURCE_FILES
         hardware/ScreenAdapter.cpp
         hardware/Speaker.cpp
         utils/WaveFileLoader.cpp
+        widgets/GameConfigDialog.cpp
 )
 
 set(HEADER_FILES
@@ -22,6 +23,7 @@ set(HEADER_FILES
         hardware/ScreenAdapter.h
         hardware/Speaker.h
         utils/WaveFileLoader.h
+        widgets/GameConfigDialog.h
 )
 
 find_package(Qt6Widgets REQUIRED)
@@ -39,8 +41,7 @@ qt_add_executable(Emu_Intel8080 ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(Emu_Intel8080 PRIVATE Qt6::Widgets ${OPEN_AL_LINK})
 target_include_directories(Emu_Intel8080 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-file(COPY sounds DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY roms DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 if (UNIX OR LINUX)
     file(COPY scripts/deploy_linux.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 else (WIN32)

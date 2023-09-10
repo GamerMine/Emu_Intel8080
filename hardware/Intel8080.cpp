@@ -813,7 +813,7 @@ uint8_t Intel8080::IN() {
         }
     }
     if (port == 2) {
-        A = 0b00000000;
+        A = main_bus->i_port_2;
     }
     if (port == 3) {
         A = getShiftRegisterContent();

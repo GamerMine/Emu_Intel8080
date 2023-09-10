@@ -5,7 +5,7 @@
 
 build_dir="build";
 executable_name="Emu_Intel8080.exe"
-files=("sounds" "roms" "$executable_name");
+files=("resources" "$executable_name");
 additional_libs=("libwinpthread-1.dll")
 qt_folder="$HOME/Qt/6.5.2/mingw-w64"
 prefix="x86_64-w64-mingw32";

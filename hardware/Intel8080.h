@@ -16,6 +16,8 @@ public:
     explicit Intel8080(class Bus *bus);
     ~Intel8080();
 
+    void reset();
+
 public slots:
     void setInterrupt(uint16_t value);
 
@@ -562,7 +564,6 @@ private:
     uint8_t fetchInstruction();
     uint8_t fetchData(uint16_t address);
     void writeData(uint16_t address, uint8_t data);
-    void reset();
     void checkInterrupts();
     void pushToShiftRegister(uint8_t data);
     void setShiftRegisterOffset(uint8_t data);
