@@ -2,7 +2,7 @@
 message("Linux compiling for Windows.")
 
 # Allow cmake to find the Qt library (this could be automated and version independent)
-list(APPEND CMAKE_PREFIX_PATH "/mnt/server/userdata/project/PROG/Qt/6.2.0/mingw81_64/lib/cmake/")
+list(APPEND CMAKE_PREFIX_PATH "$HOME/Qt/6.5.2/mingw_w64/lib/cmake/")
 
 # Targeted operating system.
 set(CMAKE_SYSTEM_NAME Windows)
