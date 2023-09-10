@@ -27,7 +27,7 @@ fi
 mkdir tmp
 for lib in $(ldd $executable_name | cut -d' ' -f3); do
   if [[ $lib == *"Qt"* ]]; then
-    cp "$qt_folder"/lib/"$(echo $lib | cut -d"/" -f8)" lib;
+    cp "$qt_folder"/lib/"$(echo $lib | rev | cut -d"/" -f1 | rev)" lib;
   elif [[ $lib == *"libicu"* ]]; then # For some reason the libicu lib is changing shared object names between folder and/or system
     lib_name=$(echo "$lib" | cut -d"/" -f4);
     new_name=${lib_name//"72"/"56"};
