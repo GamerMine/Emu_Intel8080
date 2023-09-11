@@ -67,3 +67,11 @@ Now you can build this project :
 - Deploy : `./deploy_windows.sh` (Some variables inside the script sould be modified depending on your installation)
 
 If you choose to deploy the project it should be under `build_windows/build`
+
+# References
+- [Space Invaders english Wikipedia page](https://en.wikipedia.org/wiki/Space_Invaders)
+- [Space Invaders Hardware map on walfofmind.com](https://walkofmind.com/programming/side/hardware.htm)
+- [Space Invaders Arcade Hardware on computerarcheology.com](https://www.computerarcheology.com/Arcade/SpaceInvaders/)
+- [Intel 8080 OPCODES on pastraiser.com](https://pastraiser.com/cpu/i8080/i8080_opcodes.html)
+- [Intel 8080/8085 opcode table](https://tobiasvl.github.io/optable/intel-8080/)
+- [Intel 8080 Assembly Language Programming Manual](https://altairclone.com/downloads/manuals/8080%20Programmers%20Manual.pdf)
