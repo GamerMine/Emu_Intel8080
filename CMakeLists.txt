@@ -13,6 +13,7 @@ set(SOURCE_FILES
         hardware/ScreenAdapter.cpp
         hardware/Speaker.cpp
         utils/WaveFileLoader.cpp
+        widgets/BorderLayout.cpp
         widgets/GameConfigDialog.cpp
 )
 
@@ -23,6 +24,7 @@ set(HEADER_FILES
         hardware/ScreenAdapter.h
         hardware/Speaker.h
         utils/WaveFileLoader.h
+        widgets/BorderLayout.h
         widgets/GameConfigDialog.h
 )
 

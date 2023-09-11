@@ -43,6 +43,7 @@ GameConfigDialog::GameConfigDialog(QWidget *parent, Bus *bus) : QWidget(parent, 
     lyt_box->setRowMinimumHeight(3, 50);
 
     this->setLayout(lyt_box);
+    this->setWindowTitle("Game Configuration");
     this->show();
 
     connect(btn_cancel, &QPushButton::released, this, &GameConfigDialog::btnCancelClicked);

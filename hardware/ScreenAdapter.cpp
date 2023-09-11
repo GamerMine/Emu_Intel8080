@@ -11,7 +11,7 @@ ScreenAdapter::ScreenAdapter(Bus *bus) {
     main_bus = bus;
 
     win = new Screen(nullptr, bus);
-    win->show();
+    win->showMaximized();
 
     QObject::connect(this, &ScreenAdapter::sendImage, win, &Screen::imageReceived);
 

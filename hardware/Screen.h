@@ -11,7 +11,9 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMenuBar>
+#include <QSizePolicy>
 
+#include "../widgets/BorderLayout.h"
 #include "Bus.h"
 #include "../widgets/GameConfigDialog.h"
 
@@ -29,13 +31,18 @@ public:
     static inline bool color_mode = false;
 
 public slots:
-    void imageReceived(QImage image);
+    void imageReceived(const QImage& img);
     void enableColorTriggered();
     void editGameConfigTriggered();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
+    void resizeEvent(QResizeEvent *e) override;
+
+private:
+    int image_width;
+    int image_height;
 
 private:
     Bus *main_bus;
@@ -43,11 +50,14 @@ private:
     Ui::Screen *ui;
     QImage *image;
     QLabel *image_label;
-    QBoxLayout *layout;
+    BorderLayout *main_layout;
     QMenuBar *menu_bar;
     QMenu *setting_menu;
     QAction *add_color;
     QAction *edit_dips;
+
+private:
+    void toggleFullscreen();
 };
 
 
