@@ -20,11 +20,15 @@ All the keys are subject to change (currently assigned keys are kind of akward x
 
 # Future work
 Here are some features I want to add to this project :
-- Key binding (reassigning keys)
-- i18n (Some translations)
-- Some more items in the menu bar (like About, Quit...)
-- Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
-- Make the window resizable to resize the game
+- :white_large_square: Key binding (reassigning keys)
+- :white_large_square: i18n (Some translations)
+- :white_large_square: Some more items in the menu bar (like About, Quit...)
+- :white_large_square: Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
+- :ballot_box_with_check: Make the window resizable to resize the game
+
+:white_large_square: = To Do
+:ballot_box_with_check: = Done but not included in the latest builds (Not released yet)
+:white_check_mark: = Done and included in the latest builds (Released)
 
 # Building
 ## Linux
