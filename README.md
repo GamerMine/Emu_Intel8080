@@ -31,8 +31,11 @@ Here are some features I want to add to this project :
 :white_check_mark: = Done and included in the latest builds (Released)
 
 # Building
+## Dependencies
+- [Qt](https://www.qt.io/download-qt-installer-oss) (>=6.5.2)
+- [OpenAL](https://github.com/kcat/openal-soft) (>=1.23.1)
+  
 ## Linux
-- Install [Qt](https://www.qt.io/download-qt-installer-oss) (current used version is 6.5.2) and OpenAL (`sudo apt install libopenal-dev` on Ubuntu 23.10)
 - Clone this repository : `git clone https://github.com/GamerMine/Emu_Intel8080.git`
 - Access the cloned repository : `cd Emu_Intel8080`
 - Create a build directory and go into it : `mkdir build_linux && cd build_linux`
@@ -71,6 +74,16 @@ Now you can build this project :
 - Deploy : `./deploy_windows.sh` (Some variables inside the script sould be modified depending on your installation)
 
 If you choose to deploy the project it should be under `build_windows/build`
+
+## Windows (Using MSYS2, currently WIP)
+You must have installed [MSYS2](https://www.msys2.org/) on your system before continuing.
+The following instructions uses the ninja build tool, you can use other build tools by modifing the following instructions.
+
+- Clone this repository : `git clone https://github.com/GamerMine/Emu_Intel8080.git`
+- Access the cloned repository : `cd Emu_Intel8080`
+- Create a build directory and access it : `mkdir build_windows && cd build_windows`
+- Configure the cmake project : `cmake .. -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_PREFIX_PATH="C:\Qt\6.5.2\mingw_64" -G "Ninja"`
+- Build : `cmake --build .`
 
 # References
 - [Space Invaders english Wikipedia page](https://en.wikipedia.org/wiki/Space_Invaders)
