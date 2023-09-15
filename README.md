@@ -20,15 +20,22 @@ All the keys are subject to change (currently assigned keys are kind of akward x
 
 # Future work
 Here are some features I want to add to this project :
-- Key binding (reassigning keys)
-- i18n (Some translations)
-- Some more items in the menu bar (like About, Quit...)
-- Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
-- Make the window resizable to resize the game
+- :white_large_square: Key binding (reassigning keys)
+- :white_large_square: i18n (Some translations)
+- :white_large_square: Some more items in the menu bar (like About, Quit...)
+- :white_large_square: Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
+- :ballot_box_with_check: Make the window resizable to resize the game
+
+:white_large_square: = To Do
+:ballot_box_with_check: = Done but not included in the latest builds (Not released yet)
+:white_check_mark: = Done and included in the latest builds (Released)
 
 # Building
+## Dependencies
+- [Qt](https://www.qt.io/download-qt-installer-oss) (>=6.5.2)
+- [OpenAL](https://github.com/kcat/openal-soft) (>=1.23.1)
+  
 ## Linux
-- Install [Qt](https://www.qt.io/download-qt-installer-oss) (current used version is 6.5.2) and OpenAL (`sudo apt install libopenal-dev` on Ubuntu 23.10)
 - Clone this repository : `git clone https://github.com/GamerMine/Emu_Intel8080.git`
 - Access the cloned repository : `cd Emu_Intel8080`
 - Create a build directory and go into it : `mkdir build_linux && cd build_linux`
@@ -68,9 +75,19 @@ Now you can build this project :
 
 If you choose to deploy the project it should be under `build_windows/build`
 
+## Windows (Using MSYS2, currently WIP)
+You must have installed [MSYS2](https://www.msys2.org/) on your system before continuing.
+The following instructions uses the ninja build tool, you can use other build tools by modifing the following instructions.
+
+- Clone this repository : `git clone https://github.com/GamerMine/Emu_Intel8080.git`
+- Access the cloned repository : `cd Emu_Intel8080`
+- Create a build directory and access it : `mkdir build_windows && cd build_windows`
+- Configure the cmake project : `cmake .. -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_PREFIX_PATH="C:\Qt\6.5.2\mingw_64" -G "Ninja"`
+- Build : `cmake --build .`
+
 # References
 - [Space Invaders english Wikipedia page](https://en.wikipedia.org/wiki/Space_Invaders)
-- [Space Invaders Hardware map on walfofmind.com](https://walkofmind.com/programming/side/hardware.htm)
+- [Space Invaders Hardware map on walkofmind.com](https://walkofmind.com/programming/side/hardware.htm)
 - [Space Invaders Arcade Hardware on computerarcheology.com](https://www.computerarcheology.com/Arcade/SpaceInvaders/)
 - [Intel 8080 OPCODES on pastraiser.com](https://pastraiser.com/cpu/i8080/i8080_opcodes.html)
 - [Intel 8080/8085 opcode table](https://tobiasvl.github.io/optable/intel-8080/)
