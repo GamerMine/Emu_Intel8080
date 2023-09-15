@@ -76,11 +76,18 @@ cp "$qt_folder"/plugins/platforms/qwindows.dll lib/plugins/platforms;
 if [ ! -f qt.conf ]; then
     touch qt.conf;
     echo "[Paths]" >> qt.conf;
-    echo "Plugins = ./lib/plugins" >> qt.conf;
+    echo "Plugins = ../lib/plugins" >> qt.conf;
 fi
+
 # Creating the run script
 if [ ! -f run.bat ]; then
   touch run.bat
   echo 'set PATH=.\lib;%PATH%' >> run.bat;
-  echo 'Emu_Intel8080.exe' >> run.bat;
+  echo 'bin\Emu_Intel8080.exe' >> run.bat;
 fi
+
+mkdir bin;
+# Moving wrapper files and executables
+cp ../Emu_Intel8080_Wrapper.exe ./
+mv ./Emu_Intel8080_Wrapper.exe ./SpaceInvader.exe
+mv qt.conf Emu_Intel8080.exe run.bat bin

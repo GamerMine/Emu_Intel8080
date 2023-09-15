@@ -4,6 +4,7 @@ project(Emu_Intel8080)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
+set(PROJECT_VERSION 1.2.0)
 
 set(SOURCE_FILES
         main.cpp
@@ -50,4 +51,4 @@ else (WIN32)
     file(COPY scripts/deploy_windows.sh DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 
-add_subdirectory(tests)
+add_subdirectory(wrapper)
