@@ -4,7 +4,7 @@ project(Emu_Intel8080)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
-set(PROJECT_VERSION 1.2.0)
+set(PROJECT_VERSION 1.2.1)
 
 set(SOURCE_FILES
         main.cpp

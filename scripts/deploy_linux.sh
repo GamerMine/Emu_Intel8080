@@ -72,7 +72,7 @@ for platform_lib in "${platforms_libs[@]}"; do
       cp "$lib" tmp;
       mv "tmp/$lib_name" lib/"$new_name";
     else
-      cp "$lib" lib;
+      cp "$lib" lib 2> /dev/null;
     fi
   done
 done
