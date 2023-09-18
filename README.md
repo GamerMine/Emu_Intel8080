@@ -8,7 +8,7 @@ On **Linux** it should works without any additional steps.
 
 # Installation
 - Go into the release section and download the version for you operating system (the **Linux** version has been tested on *Ubuntu 23.10 with X11* window manager)
-- Extract the archive and start `run.sh` if on **Linux** or `run.bat` if on **Windows**.
+- Extract the archive and start `SpaceInvader` if on **Linux** or `SpaceInvader.exe` if on **Windows**.
 - Enjoy !
 
 # Controls
@@ -24,7 +24,7 @@ Here are some features I want to add to this project :
 - :white_large_square: i18n (Some translations)
 - :white_large_square: Some more items in the menu bar (like About, Quit...)
 - :white_large_square: Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
-- :ballot_box_with_check: Make the window resizable to resize the game
+- :white_check_mark: Make the window resizable to resize the game
 
 :white_large_square: = To Do
 :ballot_box_with_check: = Done but not included in the latest builds (Not released yet)
