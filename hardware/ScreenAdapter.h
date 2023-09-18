@@ -8,6 +8,10 @@
 #include <QThread>
 #include "Bus.h"
 
+#ifdef _WIN32
+    #include "windows.h"
+#endif
+
 class ScreenAdapter : public QThread {
     Q_OBJECT
 public:
