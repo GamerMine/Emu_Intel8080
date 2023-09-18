@@ -2,8 +2,11 @@
 // Created by maxime on 12/08/23.
 //
 
+#include <thread>
 #include "ScreenAdapter.h"
 #include "Screen.h"
+
+
 
 Screen *win;
 
@@ -21,7 +24,11 @@ ScreenAdapter::ScreenAdapter(Bus *bus) {
 
 [[noreturn]] void ScreenAdapter::run() {
     while (true) {
-        usleep(16667);
+        #ifdef _WIN32
+            Sleep(16);
+        #else
+            usleep(16667);
+        #endif
         image->fill(QColor::fromRgb(0));
         for (int y = 0; y < 224; y++) {
             for (int x = 0; x < 32; x++) {
