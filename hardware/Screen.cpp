@@ -40,6 +40,7 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
 
     this->setLayout(main_layout);
     this->setWindowTitle("Space Invaders (Intel 8080 Emulator)");
+    this->setWindowIcon(QIcon("resources/images/icon.png"));
 
     connect(add_color, &QAction::triggered, this, &Screen::enableColorTriggered);
     connect(edit_dips, &QAction::triggered, this, &Screen::editGameConfigTriggered);
