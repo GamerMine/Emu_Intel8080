@@ -29,7 +29,7 @@ set(HEADER_FILES
         widgets/GameConfigDialog.h
 )
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6Widgets REQUIRED)
 if (WIN32)
     find_package(OpenAL CONFIG REQUIRED)
     set(OPEN_AL_LINK OpenAL::OpenAL)
@@ -52,15 +52,3 @@ else (WIN32)
 endif ()
 
 add_subdirectory(wrapper)
-
-install(TARGETS Emu_Intel8080
-    BUNDLE DESTINATION .
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-qt_generate_deploy_app_script(
-        TARGET Emu_Intel8080
-        OUTPUT_SCRIPT deploy_script
-        NO_UNSUPPORTED_PLATFORM_ERROR
-)
-
-install(SCRIPT ${deploy_script})
