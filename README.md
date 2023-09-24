@@ -12,7 +12,7 @@ On **Linux** it should works without any additional steps.
 - Enjoy !
 
 # Controls
-All the keys are subject to change (currently assigned keys are kind of akward x) )
+These are the default assigned keys (these are kind of akward x) )
 - Numpad Enter key *(Yes **Numpad**)* to add credits
 - & key *(Good luck to find this one)* to start a one player game
 - Left and Right arrows to move left or right
