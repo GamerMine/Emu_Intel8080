@@ -20,7 +20,7 @@ All the keys are subject to change (currently assigned keys are kind of akward x
 
 # Future work
 Here are some features I want to add to this project :
-- :white_large_square: Key binding (reassigning keys)
+- :ballot_box_with_check: Key binding (reassigning keys)
 - :white_large_square: i18n (Some translations)
 - :white_large_square: Some more items in the menu bar (like About, Quit...)
 - :white_large_square: Possibility to play with a controller (mostly Dualshocks and Xbox controllers)
