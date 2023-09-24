@@ -51,7 +51,14 @@ GameConfigDialog::GameConfigDialog(QWidget *parent, Bus *bus) : QWidget(parent, 
 }
 
 void GameConfigDialog::btnApplyClicked() {
+    QSettings settings("config.conf", QSettings::IniFormat);
+
+    settings.beginGroup("Game Configuration");
+    settings.setValue(SETTING_NB_LIFE, cb_nb_ships->currentIndex());
+    settings.setValue(SETTING_COIN_INFO, cb_coin_info->currentIndex());
+    settings.setValue(SETTING_BONUS_LIFE, cb_bonus_life->currentIndex());
     main_bus->i_port_2 &= 0b01110100;
+
     switch (cb_nb_ships->currentIndex()) {
         case 1: main_bus->i_port_2 |= 0b00000001; break;
         case 2: main_bus->i_port_2 |= 0b00000010; break;

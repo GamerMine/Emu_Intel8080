@@ -1,16 +1,11 @@
-//
-// Created by maxime on 12/08/23.
-//
-
-#include <thread>
 #include "ScreenAdapter.h"
 #include "Screen.h"
-
-
 
 Screen *win;
 
 ScreenAdapter::ScreenAdapter(Bus *bus) {
+    QSettings settings("config.conf", QSettings::IniFormat);
+
     main_bus = bus;
 
     win = new Screen(nullptr, bus);
@@ -20,6 +15,8 @@ ScreenAdapter::ScreenAdapter(Bus *bus) {
 
     image = new QImage(256, 224, QImage::Format_RGB32);
     current_color = QColor::fromRgb(0xFF, 0xFF, 0xFF);
+    settings.beginGroup("Game Configuration");
+    Screen::color_mode = settings.value(SETTING_ENABLE_COLOR, false).toBool();
 }
 
 [[noreturn]] void ScreenAdapter::run() {

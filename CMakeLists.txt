@@ -4,7 +4,7 @@ project(Emu_Intel8080)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOUIC  ON)
 set(CMAKE_AUTOMOC ON)
-set(PROJECT_VERSION 1.2.1)
+set(PROJECT_VERSION 1.3.0)
 
 set(SOURCE_FILES
         main.cpp
@@ -16,6 +16,7 @@ set(SOURCE_FILES
         utils/WaveFileLoader.cpp
         widgets/BorderLayout.cpp
         widgets/GameConfigDialog.cpp
+        widgets/KeybindsDialog.cpp
 )
 
 set(HEADER_FILES
@@ -24,9 +25,11 @@ set(HEADER_FILES
         hardware/Screen.h
         hardware/ScreenAdapter.h
         hardware/Speaker.h
+        utils/Settings.h
         utils/WaveFileLoader.h
         widgets/BorderLayout.h
         widgets/GameConfigDialog.h
+        widgets/KeybindsDialog.h
 )
 
 find_package(Qt6Widgets REQUIRED)

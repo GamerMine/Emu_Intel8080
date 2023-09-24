@@ -16,6 +16,7 @@
 #include "../widgets/BorderLayout.h"
 #include "Bus.h"
 #include "../widgets/GameConfigDialog.h"
+#include "../widgets/KeybindsDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Screen; }
@@ -34,6 +35,7 @@ public slots:
     void imageReceived(const QImage& img);
     void enableColorTriggered();
     void editGameConfigTriggered();
+    void editKeybindsTriggered();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -55,6 +57,7 @@ private:
     QMenu *setting_menu;
     QAction *add_color;
     QAction *edit_dips;
+    QAction *edit_keybinds;
 
 private:
     void toggleFullscreen();

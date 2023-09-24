@@ -21,13 +21,15 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
     menu_bar = new QMenuBar();
     setting_menu = new QMenu("Settings");
     add_color = new QAction("Enable colors");
-    edit_dips = new QAction(tr("Game configuration"));
+    edit_dips = new QAction("Game configuration");
+    edit_keybinds = new QAction("Keybinds");
     image = new QImage(image_width, image_height, QImage::Format_RGB32);
     image->fill(QColor::fromRgb(0));
 
     add_color->setCheckable(true);
     setting_menu->addAction(add_color);
     setting_menu->addAction(edit_dips);
+    setting_menu->addAction(edit_keybinds);
 
     menu_bar->addMenu(setting_menu);
 
@@ -44,6 +46,7 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
 
     connect(add_color, &QAction::triggered, this, &Screen::enableColorTriggered);
     connect(edit_dips, &QAction::triggered, this, &Screen::editGameConfigTriggered);
+    connect(edit_keybinds, &QAction::triggered, this, &Screen::editKeybindsTriggered);
 }
 
 Screen::~Screen() {
@@ -57,6 +60,10 @@ void Screen::imageReceived(const QImage& img) {
 }
 
 void Screen::enableColorTriggered() {
+    QSettings settings("config.conf", QSettings::IniFormat);
+    settings.beginGroup("Game Configuration");
+    settings.setValue(SETTING_ENABLE_COLOR, add_color->isChecked());
+
     if (add_color->isChecked()) {
         add_color->setText("Disable colors");
         Screen::color_mode = true;
@@ -68,6 +75,11 @@ void Screen::enableColorTriggered() {
 
 void Screen::editGameConfigTriggered() {
     auto *dialog = new GameConfigDialog(this, main_bus);
+    (void) dialog;
+}
+
+void Screen::editKeybindsTriggered() {
+    auto *dialog = new KeybindsDialog(this, main_bus);
     (void) dialog;
 }
 
@@ -90,24 +102,29 @@ void Screen::toggleFullscreen() {
  */
 
 void Screen::keyPressEvent(QKeyEvent *e) {
+    QSettings settings("config.conf", QSettings::IniFormat);
+    settings.beginGroup("Keybinds");
+
+    if (e->key() == settings.value(SETTING_START, Qt::Key_Ampersand).toInt())       main_bus->i_port_1 = main_bus->i_port_1 | 0b00000100;
+    else if (e->key() == settings.value(SETTING_ADD_CREDIT, Qt::Key_Enter).toInt()) main_bus->i_port_1 = main_bus->i_port_1 | 0b00000001;
+    else if (e->key() == settings.value(SETTING_KEY_RIGHT, Qt::Key_Right).toInt())  main_bus->i_port_1 = main_bus->i_port_1 | 0b01000000;
+    else if (e->key() == settings.value(SETTING_KEY_LEFT, Qt::Key_Left).toInt())    main_bus->i_port_1 = main_bus->i_port_1 | 0b00100000;
+    else if (e->key() == settings.value(SETTING_FIRE, Qt::Key_Space).toInt())       main_bus->i_port_1 = main_bus->i_port_1 | 0b00010000;
+
     switch (e->key()) {
-        case Qt::Key_Ampersand: main_bus->i_port_1 = main_bus->i_port_1 | 0b00000100; break; // One player button
-        case Qt::Key_Enter:     main_bus->i_port_1 = main_bus->i_port_1 | 0b00000001; break; // Credit
-        case Qt::Key_Right:     main_bus->i_port_1 = main_bus->i_port_1 | 0b01000000; break; // P1 Right
-        case Qt::Key_Left:      main_bus->i_port_1 = main_bus->i_port_1 | 0b00100000; break; // P1 Left
-        case Qt::Key_Space:     main_bus->i_port_1 = main_bus->i_port_1 | 0b00010000; break; // P1 Shot
         case Qt::Key_F11:       toggleFullscreen();                                   break; // Fullscreen toggle
     }
 }
 
 void Screen::keyReleaseEvent(QKeyEvent *e) {
-    switch (e->key()) {
-        case Qt::Key_Ampersand: main_bus->i_port_1 = main_bus->i_port_1 & 0b11111011; break; // One player button
-        case Qt::Key_Enter:     main_bus->i_port_1 = main_bus->i_port_1 & 0b11111110; break; // Credit
-        case Qt::Key_Right:     main_bus->i_port_1 = main_bus->i_port_1 & 0b10111111; break; // P1 Right
-        case Qt::Key_Left:      main_bus->i_port_1 = main_bus->i_port_1 & 0b11011111; break; // P1 Left
-        case Qt::Key_Space:     main_bus->i_port_1 = main_bus->i_port_1 & 0b11101111; break; // P1 Shot
-    }
+    QSettings settings("config.conf", QSettings::IniFormat);
+    settings.beginGroup("Keybinds");
+
+    if (e->key() == settings.value(SETTING_START, Qt::Key_Ampersand).toInt())       main_bus->i_port_1 = main_bus->i_port_1 & 0b11111011;
+    else if (e->key() == settings.value(SETTING_ADD_CREDIT, Qt::Key_Enter).toInt()) main_bus->i_port_1 = main_bus->i_port_1 & 0b11111110;
+    else if (e->key() == settings.value(SETTING_KEY_RIGHT, Qt::Key_Right).toInt())  main_bus->i_port_1 = main_bus->i_port_1 & 0b10111111;
+    else if (e->key() == settings.value(SETTING_KEY_LEFT, Qt::Key_Left).toInt())    main_bus->i_port_1 = main_bus->i_port_1 & 0b11011111;
+    else if (e->key() == settings.value(SETTING_FIRE, Qt::Key_Space).toInt())       main_bus->i_port_1 = main_bus->i_port_1 & 0b11101111;
 }
 
 void Screen::resizeEvent(QResizeEvent *e) {

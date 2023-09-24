@@ -1,17 +1,14 @@
-//
-// Created by maxime on 09/09/23.
-//
-
 #ifndef EMU_INTEL8080_GAMECONFIGDIALOG_H
 #define EMU_INTEL8080_GAMECONFIGDIALOG_H
-
 
 #include <QLabel>
 #include <QComboBox>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QSettings>
 
 #include "../hardware/Bus.h"
+#include "../utils/Settings.h"
 
 class GameConfigDialog : public QWidget {
     Q_OBJECT

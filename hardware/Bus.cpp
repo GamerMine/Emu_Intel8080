@@ -1,16 +1,16 @@
-//
-// Created by maxime on 27/07/23.
-//
-
+#include <QSettings>
 #include "Bus.h"
 #include "Screen.h"
 #include "ScreenAdapter.h"
+#include "../utils/Settings.h"
 
 const char *roms[4] = {"resources/roms/invaders.h", "resources/roms/invaders.g", "resources/roms/invaders.f", "resources/roms/invaders.e"};
 
 ScreenAdapter *adapter;
 
 Bus::Bus() {
+    QSettings settings("config.conf", QSettings::IniFormat);
+
     cpu = new Intel8080(this);
     adapter = new ScreenAdapter(this);
     speak = new Speaker(this);
@@ -42,7 +42,11 @@ Bus::Bus() {
 
     // I/O
     i_port_1 = 0x00;
-    i_port_2 = 0x00;
+
+    settings.beginGroup("Game Configuration");
+    i_port_2 =  settings.value(SETTING_COIN_INFO, 0).toInt() << 7 |
+                settings.value(SETTING_BONUS_LIFE, 0).toInt() << 3 |
+                settings.value(SETTING_NB_LIFE, 0).toInt();
     o_port_3 = 0x00;
     o_port_5 = 0x00;
     debug_key = 0;
