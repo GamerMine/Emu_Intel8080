@@ -20,11 +20,6 @@ KeybindsDialog::KeybindsDialog(QWidget *parent, Bus *bus) : QWidget(parent, Qt::
     btn_fire            = new QPushButton(QKeySequence(settings.value(SETTING_FIRE, Qt::Key_Space).toInt()).toString());
     btn_insert_credit   = new QPushButton(QKeySequence(settings.value(SETTING_ADD_CREDIT, Qt::Key_Enter).toInt()).toString());
     btn_start           = new QPushButton(QKeySequence(settings.value(SETTING_START, Qt::Key_Ampersand).toInt()).toString());
-    btn_move_right->setCheckable(true);
-    btn_move_left->setCheckable(true);
-    btn_fire->setCheckable(true);
-    btn_insert_credit->setCheckable(true);
-    btn_start->setCheckable(true);
     btn_move_right->setProperty("id", SETTING_KEY_RIGHT);
     btn_move_left->setProperty("id", SETTING_KEY_LEFT);
     btn_fire->setProperty("id", SETTING_FIRE);
@@ -47,23 +42,25 @@ KeybindsDialog::KeybindsDialog(QWidget *parent, Bus *bus) : QWidget(parent, Qt::
     lyt_grid->addWidget(lbl_start, 4, 0);
     lyt_grid->addWidget(btn_start, 4, 1);
 
-    lyt_grid->setRowMinimumHeight(3, 50);
+    lyt_grid->setRowMinimumHeight(0, 30);
 
+    this->setMinimumSize(300, 200);
     this->setLayout(lyt_grid);
     this->setWindowTitle("Keybinds");
     this->show();
 
-    connect(btn_move_right, &QPushButton::toggled, this, &KeybindsDialog::assignKey);
-    connect(btn_move_left, &QPushButton::toggled, this, &KeybindsDialog::assignKey);
-    connect(btn_fire, &QPushButton::toggled, this, &KeybindsDialog::assignKey);
-    connect(btn_insert_credit, &QPushButton::toggled, this, &KeybindsDialog::assignKey);
-    connect(btn_start, &QPushButton::toggled, this, &KeybindsDialog::assignKey);
+    connect(btn_move_right, &QPushButton::clicked, this, &KeybindsDialog::assignKey);
+    connect(btn_move_left, &QPushButton::clicked, this, &KeybindsDialog::assignKey);
+    connect(btn_fire, &QPushButton::clicked, this, &KeybindsDialog::assignKey);
+    connect(btn_insert_credit, &QPushButton::clicked, this, &KeybindsDialog::assignKey);
+    connect(btn_start, &QPushButton::clicked, this, &KeybindsDialog::assignKey);
 }
 
 void KeybindsDialog::assignKey() {
     clicked_button = (QPushButton*)sender();
     if (!clicked_button) return;
 
+    clicked_button->setText("Press a key...");
     for (QAbstractButton *btn : btn_group->buttons()) {
         btn->setDisabled(true);
     }
@@ -76,12 +73,11 @@ void KeybindsDialog::keyPressEvent(QKeyEvent *event) {
         QSettings settings("config.conf", QSettings::IniFormat);
         settings.beginGroup("Keybinds");
         clicked_button->setText(QKeySequence(event->key()).toString());
-        clicked_button->setChecked(false);
 
         settings.setValue(clicked_button->property("id").toString(), event->key());
 
         for (QAbstractButton *btn : btn_group->buttons()) {
-            btn->setEnabled(true);
+            btn->setDisabled(false);
         }
 
         is_assigning = false;
