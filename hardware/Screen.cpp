@@ -19,19 +19,31 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
     main_layout = new BorderLayout(0);
     image_label = new QLabel();
     menu_bar = new QMenuBar();
+    emulator_menu = new QMenu("Emulator");
     setting_menu = new QMenu("Settings");
+    about_menu = new QMenu("About");
+    quit = new QAction("Exit");
     add_color = new QAction("Enable colors");
     edit_dips = new QAction("Game configuration");
     edit_keybinds = new QAction("Keybinds");
+    about_qt = new QAction("About Qt");
+    about_this = new QAction("About this program");
     image = new QImage(image_width, image_height, QImage::Format_RGB32);
     image->fill(QColor::fromRgb(0));
+
+    emulator_menu->addAction(quit);
 
     add_color->setCheckable(true);
     setting_menu->addAction(add_color);
     setting_menu->addAction(edit_dips);
     setting_menu->addAction(edit_keybinds);
 
+    about_menu->addAction(about_qt);
+    about_menu->addAction(about_this);
+
+    menu_bar->addMenu(emulator_menu);
     menu_bar->addMenu(setting_menu);
+    menu_bar->addMenu(about_menu);
 
     image_label->setPixmap(QPixmap::fromImage(image->scaled(image_width, image_height)));
     image_label->setSizePolicy(QSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored));
@@ -44,6 +56,7 @@ Screen::Screen(QWidget *parent, Bus *bus) : QWidget(parent), ui(new Ui::Screen) 
     this->setWindowTitle("Space Invaders (Intel 8080 Emulator)");
     this->setWindowIcon(QIcon("resources/images/icon.png"));
 
+    connect(quit, &QAction::triggered, this, &Screen::exit);
     connect(add_color, &QAction::triggered, this, &Screen::enableColorTriggered);
     connect(edit_dips, &QAction::triggered, this, &Screen::editGameConfigTriggered);
     connect(edit_keybinds, &QAction::triggered, this, &Screen::editKeybindsTriggered);
@@ -57,6 +70,10 @@ void Screen::imageReceived(const QImage& img) {
     auto rotated = img.transformed(QTransform().rotate(-90.0));
     auto scaled = rotated.scaled(image_width, image_height);
     image_label->setPixmap(QPixmap::fromImage(scaled));
+}
+
+void Screen::exit() {
+    this->close();
 }
 
 void Screen::enableColorTriggered() {

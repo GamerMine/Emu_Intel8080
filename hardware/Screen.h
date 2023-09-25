@@ -32,6 +32,7 @@ public:
     static inline bool color_mode = false;
 
 public slots:
+    void exit();
     void imageReceived(const QImage& img);
     void enableColorTriggered();
     void editGameConfigTriggered();
@@ -54,10 +55,21 @@ private:
     QLabel *image_label;
     BorderLayout *main_layout;
     QMenuBar *menu_bar;
+    QMenu *emulator_menu;
     QMenu *setting_menu;
+    QMenu *about_menu;
+
+    // Emulator menu
+    QAction *quit;
+
+    // Settings menu
     QAction *add_color;
     QAction *edit_dips;
     QAction *edit_keybinds;
+
+    // About menu
+    QAction *about_qt;
+    QAction *about_this;
 
 private:
     void toggleFullscreen();
